@@ -1,31 +1,34 @@
 
 <!DOCTYPE html>
 <html>
-<head><title>Smart Decision Trade</title></head>
+<head>
+    <title>Smart Trader</title>
+</head>
 <body>
-<h2>📊 Intelligent NSE Trade Executor</h2>
-<form method="post">
-    <label>Stock:</label>
-    <select name="symbol">
-        {% for s in symbols %}
-        <option value="{{ s }}">{{ s }}</option>
-        {% endfor %}
-    </select><br><br>
-    <label>Quantity:</label>
-    <input type="number" name="quantity" required><br><br>
-    <label>Repeat Strategy (times):</label>
-    <input type="number" name="repeat" min="1" max="10" value="1"><br><br>
-    <button type="submit">Evaluate & Execute</button>
-</form>
-{% if message %}
-<hr>
-<p><b>Symbol:</b> {{ message.symbol }}<br>
-<b>Quantity:</b> {{ message.quantity }}<br>
-<b>Suggested Action:</b> {{ message.signal }}<br>
-<b>Margin Available:</b> ₹{{ message.margin }}<br>
-<b>Required Funds:</b> ₹{{ message.required }}<br>
-<b>Status:</b> {{ message.status }}<br>
-<b>Strategy Repeats:</b> {{ message.repeat }}</p>
-{% endif %}
+    <h2>📊 Intelligent NSE Trade Executor</h2>
+    <form method="post">
+        <label>Stock:</label>
+        <select name="symbol">
+            {% for s in symbols %}
+            <option value="{{ s }}" {% if selected_symbol == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Quantity:</label>
+        <input type="number" name="quantity" value="{{ quantity or '' }}"><br><br>
+
+        <label>Repeat Strategy (times):</label>
+        <input type="number" name="repeat" value="{{ repeat or 1 }}"><br><br>
+
+        <button type="submit">Evaluate & Execute</button>
+    </form>
+
+    <p><b>Symbol:</b> {{ selected_symbol }}</p>
+    <p><b>Quantity:</b> {{ quantity }}</p>
+    <p><b>Suggested Action:</b> {{ action }}</p>
+    <p><b>Margin Available: ₹</b> {{ margin }}</p>
+    <p><b>Required Funds: ₹</b> {{ required }}</p>
+    <p><b>Status:</b> {{ status }}</p>
+    <p><b>Strategy Repeats:</b> {{ repeat }}</p>
 </body>
 </html>
