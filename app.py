@@ -79,9 +79,9 @@ def trade():
             message = {"error": str(e)}
 
     return render_template("trade.html", symbols=nse_100, message=message)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
-    @app.route("/ping")
+@app.route("/ping")
 def ping():
     return "PONG", 200
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+    
