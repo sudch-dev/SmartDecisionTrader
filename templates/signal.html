@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ultimate Signal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f8ff; }
+    select, button { padding: 10px; width: 100%; margin-top: 10px; }
+    .card { background: #fff; padding: 20px; margin-top: 20px; border-radius: 8px; box-shadow: 0 0 8px #ccc; }
+    .highlight { font-weight: bold; font-size: 1.2em; color: #2c3e50; }
+  </style>
+</head>
+<body>
+  <h2>📈 Ultimate Signal Dashboard</h2>
+
+  <form method="post">
+    <select name="symbol">
+      {% for sym in symbols %}
+        <option value="{{ sym }}" {% if selected_symbol == sym %}selected{% endif %}>{{ sym }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Get Signal</button>
+  </form>
+
+  {% if data %}
+  <div class="card">
+    {% if data.error %}
+      <p class="highlight">⚠️ Error: {{ data.error }}</p>
+    {% else %}
+      <p><b>Price:</b> ₹{{ data.price }}</p>
+      <p><b>Volume:</b> {{ data.volume }}</p>
+      <p class="highlight">📊 Signal: {{ data.signal }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</body>
+</html>
