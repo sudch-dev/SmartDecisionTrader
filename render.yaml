@@ -2,4 +2,4 @@ type: web
 name: ultimate-predictions
 env: python
 buildCommand: ""
-startCommand: gunicorn main:app
+startCommand: gunicorn main:main
