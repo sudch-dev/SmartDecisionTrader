@@ -1,38 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Ultimate Signal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f8ff; }
-    select, button { padding: 10px; width: 100%; margin-top: 10px; }
-    .card { background: #fff; padding: 20px; margin-top: 20px; border-radius: 8px; box-shadow: 0 0 8px #ccc; }
-    .highlight { font-weight: bold; font-size: 1.2em; color: #2c3e50; }
-  </style>
+  <title>Kite Signal</title>
 </head>
-<body>
-  <h2>📈 Ultimate Signal Dashboard</h2>
-
-  <form method="post">
-    <select name="symbol">
-      {% for sym in symbols %}
-        <option value="{{ sym }}" {% if selected_symbol == sym %}selected{% endif %}>{{ sym }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit">Get Signal</button>
-  </form>
-
-  {% if data %}
-  <div class="card">
-    {% if data.error %}
-      <p class="highlight">⚠️ Error: {{ data.error }}</p>
-    {% else %}
-      <p><b>Price:</b> ₹{{ data.price }}</p>
-      <p><b>Volume:</b> {{ data.volume }}</p>
-      <p class="highlight">📊 Signal: {{ data.signal }}</p>
+<body style="font-family:sans-serif;background:#eef;padding:30px;">
+  <h2>📈 Kite Signal Dashboard</h2>
+  {% if not_logged_in %}
+    <a href="/login"><button style="padding:10px 20px;">🔐 Login with Kite</button></a>
+  {% else %}
+    <form method="POST">
+      <label>Select Stock:</label>
+      <select name="symbol" style="width:200px;padding:5px;">
+        {% for sym in symbols %}
+          <option value="{{sym}}" {% if selected_symbol==sym %}selected{% endif %}>{{sym}}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">🔍 Get Signal</button>
+    </form>
+    {% if data %}
+      <div style="margin-top:20px;padding:10px;background:#fff;border-radius:6px;">
+        <b>Price:</b> ₹{{data.price}}<br>
+        <b>Volume:</b> {{data.volume}}<br>
+        <b>📊 Signal:</b> <span style="color:darkblue;font-weight:bold;">{{data.signal}}</span>
+      </div>
     {% endif %}
-  </div>
   {% endif %}
 </body>
 </html>
