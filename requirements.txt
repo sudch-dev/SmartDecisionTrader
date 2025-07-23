@@ -1,2 +1,5 @@
 flask
 kiteconnect
+gunicorn
+kiteconnect
+fastAPI
