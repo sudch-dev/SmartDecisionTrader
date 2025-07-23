@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 KITE_API_KEY = os.getenv("KITE_API_KEY")
 KITE_API_SECRET = os.getenv("KITE_API_SECRET")
-REDIRECT_URL = "https://your-app-url.onrender.com/access_token"
+REDIRECT_URL = "https://smartdecisiontrader.onrender.com"
 
 kite = KiteConnect(api_key=KITE_API_KEY)
 kite_session = None
