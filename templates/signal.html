@@ -1,29 +1,54 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Kite Signal</title>
+  <meta charset="UTF-8" />
+  <title>📊 Stock Signal Predictor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #eef; }
+    select, button { padding: 10px; margin-top: 10px; width: 100%; font-size: 1em; }
+    #result { margin-top: 20px; padding: 15px; background: #fff; border-radius: 6px; box-shadow: 0 0 5px #ccc; }
+    .label { font-weight: bold; }
+    .login-btn { background-color: #1a73e8; color: white; padding: 12px; border: none; cursor: pointer; border-radius: 6px; width: 100%; }
+    .login-btn:hover { background-color: #1558b0; }
+  </style>
 </head>
-<body style="font-family:sans-serif;background:#eef;padding:30px;">
-  <h2>📈 Kite Signal Dashboard</h2>
-  {% if not_logged_in %}
-    <a href="/login"><button style="padding:10px 20px;">🔐 Login with Kite</button></a>
-  {% else %}
-    <form method="POST">
-      <label>Select Stock:</label>
-      <select name="symbol" style="width:200px;padding:5px;">
-        {% for sym in symbols %}
-          <option value="{{sym}}" {% if selected_symbol==sym %}selected{% endif %}>{{sym}}</option>
-        {% endfor %}
-      </select>
-      <button type="submit">🔍 Get Signal</button>
-    </form>
-    {% if data %}
-      <div style="margin-top:20px;padding:10px;background:#fff;border-radius:6px;">
-        <b>Price:</b> ₹{{data.price}}<br>
-        <b>Volume:</b> {{data.volume}}<br>
-        <b>📊 Signal:</b> <span style="color:darkblue;font-weight:bold;">{{data.signal}}</span>
-      </div>
-    {% endif %}
+<body>
+
+<h2>📈 Stock Signal Predictor</h2>
+
+{% if not_logged_in %}
+  <p>You are not logged in to Kite Connect.</p>
+  <a href="/login"><button class="login-btn">🔐 Login with Kite</button></a>
+{% else %}
+  <form method="post">
+    <label for="symbol">Select Symbol:</label>
+    <select name="symbol" id="symbol" required>
+      {% for symbol in symbols %}
+        <option value="{{ symbol }}" {% if symbol == selected_symbol %}selected{% endif %}>{{ symbol }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">📊 Analyze</button>
+  </form>
+
+  {% if data %}
+    <div id="result">
+      {% if data.error %}
+        <p><strong>Error:</strong> {{ data.error }}</p>
+      {% else %}
+        <p><span class="label">Symbol:</span> {{ data.symbol }}</p>
+        <p><span class="label">Date:</span> {{ data.date }}</p>
+        <p><span class="label">Open:</span> ₹{{ data.open }} | <span class="label">Close:</span> ₹{{ data.close }}</p>
+        <p><span class="label">High:</span> ₹{{ data.high }} | <span class="label">Low:</span> ₹{{ data.low }}</p>
+        <p><span class="label">Previous Close:</span> ₹{{ data.prev_close }}</p>
+        <p><span class="label">Pivot:</span> ₹{{ data.pivot }} | <span class="label">R1:</span> ₹{{ data.r1 }} | <span class="label">S1:</span> ₹{{ data.s1 }}</p>
+        <p><span class="label">Stochastic:</span> {{ data.stochastic }} → <b>{{ data.momentum }}</b></p>
+        <p><span class="label">Detected Pattern:</span> <b style="color: #1a237e;">{{ data.pattern }}</b></p>
+      {% endif %}
+    </div>
   {% endif %}
+{% endif %}
+
 </body>
 </html>
