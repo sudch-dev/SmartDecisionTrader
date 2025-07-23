@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ultimate Predictions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #eef; }
+    select, button { width: 100%; padding: 10px; margin-top: 10px; }
+    #result { margin-top: 20px; background: #fff; padding: 15px; border-radius: 6px; box-shadow: 0 0 5px #ccc; }
+    .highlight { font-weight: bold; font-size: 1.2em; color: #1a237e; }
+  </style>
+</head>
+<body>
+
+<h2>🔮 Ultimate Predictions (Kite)</h2>
+
+<select id="symbol">
+  <option value="RELIANCE">RELIANCE</option>
+  <option value="TCS">TCS</option>
+  <option value="INFY">INFY</option>
+  <option value="HDFCBANK">HDFCBANK</option>
+  <option value="ICICIBANK">ICICIBANK</option>
+  <option value="LT">LT</option>
+  <option value="SBIN">SBIN</option>
+  <option value="AXISBANK">AXISBANK</option>
+  <option value="WIPRO">WIPRO</option>
+  <option value="ITC">ITC</option>
+</select>
+
+<button onclick="predict()">Analyze</button>
+
+<div id="result">Prediction result will appear here...</div>
+
+<script>
+async function predict() {
+  const symbol = document.getElementById("symbol").value;
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerText = "🔍 Fetching from backend for " + symbol + "...";
+
+  try {
+    const res = await fetch(`/predict?symbol=${symbol}`);
+    const data = await res.json();
+
+    if (data.error) {
+      resultDiv.innerText = "❌ " + data.error;
+      return;
+    }
+
+    resultDiv.innerHTML = `
+      ✅ <b>${data.symbol}</b><br><br>
+      📈 Open: ₹${data.open}<br>
+      🔺 High: ₹${data.high}<br>
+      🔻 Low: ₹${data.low}<br>
+      💹 Close: ₹${data.close}<br>
+      🕘 Prev Close: ₹${data.prev_close}<br><br>
+      📌 Pivot: ₹${data.pivot}<br>
+      🛑 R1: ₹${data.r1} | 🛡️ S1: ₹${data.s1}<br><br>
+      ⚡ Stochastic %K: ${data.stochastic}% → <b>${data.momentum}</b>
+    `;
+  } catch (e) {
+    console.error(e);
+    resultDiv.innerText = "❌ Error fetching from backend.";
+  }
+}
+</script>
+</body>
+</html>
